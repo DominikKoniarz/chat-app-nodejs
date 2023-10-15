@@ -1,13 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Vite + TS</title>
+	</head>
+	<body>
+		<div class="container">
+			<header class="header">
+				<div class="general">
+					<div class="general-header">General rooms</div>
+					<div class="general-buttons">
+						<button type="button">Home</button>
+						<button type="button">Games</button>
+					</div>
+				</div>
+				<div class="header-line" />
+				<div class="users">
+					<div class="users-header">Connected Users Rooms</div>
+					<div class="users-buttons" id="users-buttons"></div>
+				</div>
+			</header>
+		</div>
+		<script type="module" src="/src/main.ts" defer></script>
+	</body>
 </html>

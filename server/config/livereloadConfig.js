@@ -1,6 +1,6 @@
-const livereload = require("livereload");
-const connectLiveReload = require("connect-livereload");
-const path = require("path");
+import livereload from "livereload";
+import connectLiveReload from "connect-livereload";
+import path from "path";
 
 const useLivereload = (app) => {
 	const liveReloadServer = livereload.createServer({
@@ -8,7 +8,7 @@ const useLivereload = (app) => {
 		delay: 20,
 	});
 
-	liveReloadServer.watch([path.join(__dirname, "..", "public")]);
+	liveReloadServer.watch([path.join("..", "public")]);
 	liveReloadServer.server.once("connection", () => {
 		setTimeout(() => {
 			liveReloadServer.refresh("/");
@@ -18,4 +18,4 @@ const useLivereload = (app) => {
 	app.use(connectLiveReload());
 };
 
-module.exports = useLivereload;
+export default useLivereload;
