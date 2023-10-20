@@ -14,6 +14,8 @@ const io = new Server(server, {
 	},
 });
 
+const allowedRooms = ["home", "games", "school"];
+
 process.env.NODE_ENV !== "production" && useLivereload(app);
 
 app.use(cors());
@@ -24,10 +26,13 @@ app.use((req, res, next) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-	app.use("/assets", express.static(path.join("..", "dist", "assets")));
+	app.use(
+		"/assets",
+		express.static(path.join(process.cwd(), "dist", "assets"))
+	);
 
 	app.get("/", (req, res) => {
-		res.sendFile(path.join("..", "dist", "index.html"));
+		res.sendFile(path.join(process.cwd(), "dist", "index.html"));
 	});
 
 	app.all("*", (req, res) => {
@@ -36,19 +41,30 @@ if (process.env.NODE_ENV === "production") {
 }
 
 io.on("connection", (socket) => {
-	console.log("a user connected", socket.id);
+	socket.on("change-room", (room, cb) => {
+		if (!allowedRooms.includes(room)) return;
+		const currentRoomsIterator = socket.adapter.rooms?.keys() || [].keys();
 
-	socket.broadcast.emit("new-user-connected", socket.id);
+		socket.join(room);
+		for (const item of currentRoomsIterator) {
+			if (item !== room && item != socket.id) {
+				socket.leave(item);
+			}
+		}
 
-	socket.on("disconnect", () => {
-		socket.broadcast.emit("user-disconnected", socket.id);
+		cb(room);
 	});
 
-	socket.on("message", (message, room) => {
-		console.log(message);
-		// socket.emit("message", message);
-		socket.broadcast.emit("message", message);
+	socket.on("message", (obj) => {
+		const { toRoom, message } = JSON.parse(obj);
+
+		io.to(toRoom).emit("message", message);
 	});
+});
+
+app.use((error, req, res, next) => {
+	console.log(error.stack);
+	res.json({ message: "Server Error!" });
 });
 
 server.listen(3000, undefined, undefined, () => {

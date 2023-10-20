@@ -3,24 +3,45 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Vite + TS</title>
+		<title>Chat App NodeJS</title>
 	</head>
 	<body>
 		<div class="container">
 			<header class="header">
 				<div class="general">
-					<div class="general-header">General rooms</div>
-					<div class="general-buttons">
-						<button type="button">Home</button>
-						<button type="button">Games</button>
+					<div class="general-header">Rooms</div>
+					<div class="nav-line"></div>
+					<div class="rooms-buttons">
+						<button type="button" class="room-button" data-room="home">
+							Home
+						</button>
+						<button type="button" class="room-button" data-room="games">
+							Games
+						</button>
+						<button type="button" class="room-button" data-room="school">
+							School
+						</button>
 					</div>
 				</div>
-				<div class="header-line" />
-				<div class="users">
-					<div class="users-header">Connected Users Rooms</div>
-					<div class="users-buttons" id="users-buttons"></div>
-				</div>
 			</header>
+			<main class="main">
+				<div class="room-indicator-container">
+					Room:
+					<div id="room-indicator">Loading...</div>
+				</div>
+				<ul class="messages-list">
+					<li class="message">xd</li>
+				</ul>
+				<form id="message-form">
+					<input
+						type="text"
+						name="message-input"
+						id="message-input"
+						autocomplete="off"
+					/>
+					<button type="submit" id="message-submit">Send</button>
+				</form>
+			</main>
 		</div>
 		<script type="module" src="/src/main.ts" defer></script>
 	</body>
